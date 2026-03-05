@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Eesti Kaardid">
+<title>Eesti keele kaardid</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f0f4ff; padding: 12px; }
+.wrap { max-width: 600px; margin: 0 auto; }
+.header { background: #003DA5; border-radius: 16px; padding: 14px; text-align: center; margin-bottom: 12px; }
+.header h1 { color: #fff; font-size: 20px; }
+.tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 12px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { flex-shrink: 0; padding: 8px 14px; border-radius: 20px; border: none; font-size: 14px; font-weight: 700; background: #ccdcf7; color: #003DA5; min-height: 44px; }
+.tab.active { background: #003DA5; color: #fff; }
+.week-title { text-align: center; margin-bottom: 12px; }
+.week-title span { background: #ccdcf7; border-radius: 12px; padding: 6px 18px; font-weight: 700; color: #003DA5; font-size: 16px; }
+.modes { display: flex; justify-content: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.mode-btn { padding: 9px 18px; border-radius: 20px; border: none; font-weight: 700; font-size: 14px; background: #ccdcf7; color: #003DA5; min-height: 44px; }
+.mode-btn.active { background: #0057CC; color: #fff; }
+.mode-btn.edit-active { background: #e07a5f; color: #fff; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.card { border-radius: 16px; overflow: hidden; border: 2px solid #ccdcf7; box-shadow: 0 2px 10px rgba(0,61,165,0.1); background: #fff; }
+.card-img { width: 100%; aspect-ratio: 1/1; background: #e8f0fc; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.placeholder { color: #aac; font-size: 28px; text-align: center; line-height: 1.6; }
+.overlay { position: absolute; inset: 0; background: rgba(0,61,165,0.45); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 14px; }
+.card-label { background: #003DA5; color: #fff; padding: 10px; text-align: center; font-weight: 700; font-size: 14px; display: flex; justify-content: center; align-items: center; gap: 8px; min-height: 44px; }
+.edit-controls { background: #e8f0fc; padding: 8px; display: flex; flex-direction: column; gap: 6px; }
+.edit-row { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+.ebtn { padding: 8px 12px; border-radius: 12px; border: none; color: #fff; font-size: 13px; font-weight: 700; min-height: 40px; }
+.status { background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 10px; margin-bottom: 10px; font-size: 13px; display: none; }
+.quiz-wrap { text-align: center; padding-bottom: 20px; }
+.quiz-counter { color: #0057CC; font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+.quiz-card { background: #fff; border: 3px solid #ccdcf7; border-radius: 24px; overflow: hidden; margin: 0 auto 16px; box-shadow: 0 4px 16px rgba(0,61,165,0.12); max-width: 85%; }
+.quiz-img { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: #e8f0fc; display: flex; align-items: center; justify-content: center; }
+.quiz-img img { width: 100%; height: 100%; object-fit: cover; }
+.quiz-answer { padding: 16px; min-height: 64px; display: flex; align-items: center; justify-content: center; }
+.quiz-word { font-size: 22px; font-weight: 800; color: #003DA5; }
+.quiz-hint { font-size: 15px; color: #99a; }
+.big-btn { padding: 14px 32px; border: none; border-radius: 20px; font-size: 16px; font-weight: 700; color: #fff; min-height: 52px; }
+.game-card { background: #fff; border: 2px solid #ccdcf7; border-radius: 16px; padding: 20px; margin-top: 12px; box-shadow: 0 2px 10px rgba(0,61,165,0.08); }
+.game-card h3 { color: #003DA5; font-size: 17px; margin-bottom: 10px; }
+.game-card p { color: #333; font-size: 15px; line-height: 1.6; }
+.game-close { float: right; background: none; border: none; font-size: 20px; cursor: pointer; color: #888; margin-top: -4px; }
+.export-bar { margin-top: 20px; padding-top: 16px; border-top: 2px solid #ccdcf7; text-align: center; }
+.export-btn { padding: 12px 24px; background: #003DA5; color: #fff; border: none; border-radius: 20px; font-size: 15px; font-weight: 700; min-height: 48px; }
+.export-hint { font-size: 12px; color: #88a; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="status" class="status"></div>
+  <div class="header"><h1>🇪🇪 Eesti keele kaardid</h1></div>
+  <div class="tabs" id="tabs"></div>
+  <div class="week-title"><span id="week-title"></span></div>
+  <div class="modes" id="modes"></div>
+  <div id="main"></div>
+  <div class="export-bar">
+    <button class="export-btn" id="export-btn">💾 Ekspordi fail</button>
+    <div class="export-hint">Salvestab kõik pildid ja helid faili sisse</div>
+  </div>
+</div>
+<script>
+var WEEKS=[
+  {week:1,title:"M\u00e4ngukutsed",emoji:"\uD83D\uDEDD",words:["m\u00e4ngi minuga","tule siia","mine \u00e4ra","minu kord","sinu kord","jookseme"],
+   game:{title:"Palliveeretamine",desc:"Istuge p\u00f5randal ja veeretage palli edasi-tagasi. Iga kord kui pall liigub, \u00fctlege koos: \u201eminu kord\u201c v\u00f5i \u201esinu kord\u201c. Proovige ka teisi n\u00e4dala s\u00f5nu \u2014 n\u00e4iteks \u201em\u00e4ngi minuga\u201c enne m\u00e4ngu algust ja \u201ejookseme\u201c kui l\u00f5petate!"}},
+  {week:2,title:"Tunded m\u00e4ngul",emoji:"\uD83D\uDC9B",words:["tahan","ei taha","anna mulle","\u00e4ra v\u00f5ta","appi","ait\u00e4h"],
+   game:{title:"Nukkude rollim\u00e4ng",desc:"V\u00f5tke kaks nukku v\u00f5i peh\u00meket m\u00e4nguasja. Lase lapsel \u201ekutsuda\u201c nukku m\u00e4ngima eesti keeles (\u201em\u00e4ngi minuga!\u201c). Nukkudel on erinevad tunded \u2014 \u00fcks tahab m\u00e4ngida, teine ei taha. \u00d5peta last nukkude eest r\u00e4\u00e4kima!"}},
+  {week:3,title:"Keha ja liikumine",emoji:"\uD83E\uDD38",words:["jookse","h\u00fcppa","istu","seisa","tule","vaata"],
+   game:{title:"Siim \u00fctleb",desc:"M\u00e4ngige \u201eSiim \u00fctleb\u201c eesti keeles! Anna k\u00e4ske: \u201eSiim \u00fctleb \u2014 h\u00fcppa!\u201c, \u201eSiim \u00fctleb \u2014 istu!\u201c jne. Vaheta korda \u2014 lase lapsel ka k\u00e4ske anda. Alusta aeglaselt ja muuda j\u00e4rjest kiiremaks!"}},
+  {week:4,title:"Toit",emoji:"\uD83C\uDF4E",words:["n\u00e4ljane","janu","s\u00f6\u00f6","joo","maitsev","veel palun"],
+   game:{title:"Restoranm\u00e4ng",desc:"Katke laud m\u00e4nguasjade v\u00f5i p\u00e4ristoiduga. Laps on klient, sina kelner (v\u00f5i vastupidi!). Klient peab tellima eesti keeles: \u201epalun s\u00f6\u00f6\u201c, \u201eveel palun\u201c, \u201emaitsev!\u201c. Proovige ka \u201en\u00e4ljane\u201c ja \u201ejanu\u201c \u2014 mida klient vajab?"}},
+  {week:5,title:"Loomad",emoji:"\uD83D\uDC3E",words:["koer","kass","j\u00e4nes","karu","lind","kala"],
+   game:{title:"Loomajaht",desc:"Peida 5\u20136 mängulooma v\u00f5i loomapilti toa erinevatesse nurkadesse. Laps otsib \u00fcles ja iga leitud looma puhul \u00fctleb nime eesti keeles. Tee ka loomah\u00e4\u00e4li \u2014 \u201ekass \u00fctleb...?\u201c Kes leiab k\u00f5ik loomad k\u00f5ige kiiremini?"}},
+  {week:6,title:"V\u00e4rvid ja kujundid",emoji:"\uD83C\uDFA8",words:["punane","sinine","roheline","kollane","suur","v\u00e4ike"],
+   game:{title:"V\u00e4rvijahi m\u00e4ng",desc:"K\u00e4ige toas ringi ja otsi! \u201eLeia midagi punast!\u201c \u2014 laps jookseb ja puudutab punast asja. Muuda raskemaks: \u201eLeia midagi suur ja sinine!\u201c V\u00f5i \u201eLeia v\u00e4ike roheline asi!\u201c Kes leiab kiiremini \u2014 sina v\u00f5i laps?"}},
+  {week:7,title:"K\u00fcsimused",emoji:"\u2753",words:["mis see on?","kus on?","kes see on?","miks?","kas sa tahad?","mis v\u00e4rvi?"],
+   game:{title:"Mis on kotis?",desc:"Pane 4\u20135 mänguasja v\u00f5i eseme k\u00f6\u00f6gikotti. Laps ei n\u00e4e mis sees on. Laps \u00fctleb: \u201eMis see on?\u201c \u2014 sina annad vihjeid. Vahetage korda \u2014 sina paned k\u00e4e kotti ja arvad mis sees on, laps \u00f5petab uusi s\u00f5nu!"}},
+  {week:8,title:"Emotsioonid",emoji:"\uD83D\uDE04",words:["\u00f5nnelik","kurb","vihane","hirmul","v\u00e4sinud","r\u00f5\u00f5mus"],
+   game:{title:"N\u00e4omiimikakaardid",desc:"Vaheldumisi tehke n\u00e4gu \u2014 teine arvab mis tunne see on eesti keeles. Alusta lihtsatest (\u00f5nnelik, kurb) ja lisa keerulisemad. Proovi ka koos peeglist vaadata \u2014 mis n\u00e4gu teeb \u00f5nnelik inimene? Mis n\u00e4gu teeb v\u00e4sinud inimene?"}},
+  {week:9,title:"Lugu jutustamine",emoji:"\uD83D\uDCD6",words:["ja siis","aga","sest","vaata!","kuula!","l\u00f5pp"],
+   game:{title:"Jutustame koos",desc:"V\u00f5tke pildiraamat. Sina alustad lugu: \u201eOli kord...\u201c \u2014 laps jätkab. Kasutage s\u00f5nu: \u201eja siis\u201c, \u201eaga\u201c, \u201esest\u201c. L\u00f5pus \u00fctleb laps: \u201el\u00f5pp!\u201c Proovi ka ilma raamatuta \u2014 v\u00e4ljam\u00f5eldud lugu mänguasjadest!"}},
+  {week:10,title:"Tutvumine",emoji:"\uD83D\uDC4B",words:["minu nimi on...","kui vana sa oled?","m\u00e4ngime koos?","kus sa elad?","tere!","head aega!"],
+   game:{title:"Nukkude tutvumine",desc:"Igale nukule v\u00f5i m\u00e4nguasjale anna nimi ja vanus. Laps tutvustab nukku: \u201eTere! Minu nimi on Maali. Ma olen 3 aastat vana.\u201c Tee nii et nukkude vahel k\u00e4ib p\u00e4ris vestlus \u2014 k\u00fcsimused ja vastused!"}},
+  {week:11,title:"\u00d5ues ja looduses",emoji:"\uD83C\uDF33",words:["puu","lill","vesi","p\u00e4ike","vihm","liiv"],
+   game:{title:"Loodusjahi m\u00e4ng",desc:"Minge \u00f5ue v\u00f5i parki. Anna \u00fclesandeid: \u201ePuuduta puud!\u201c, \u201eLeia lill!\u201c, \u201eN\u00e4ita p\u00e4ikest!\u201c Kogu v\u00e4ikeseid loodusasju (kivid, lehed, k\u00e4bid) ja nimetage neid eesti keeles. Kes leiab k\u00f5ik asjad k\u00f5ige kiiremini?"}},
+  {week:12,title:"Kordamine \uD83C\uDF89",emoji:"\uD83C\uDF1F",words:["tubli!","h\u00e4sti tehtud!","proovi uuesti","sa oled tark!","veel kord!","juhhuu!"],
+   game:{title:"Lemmikm\u00e4ngude kordamine",desc:"T\u00e4histamise n\u00e4dal! Lase lapsel valida oma lemmikm\u00e4ng k\u00f5igist 12 n\u00e4dalast. M\u00e4ngige seda koos ja kasutage tunnustuss\u00f5nu: \u201etubli!\u201c, \u201eh\u00e4sti tehtud!\u201c, \u201ejuhhuu!\u201c Tee lapsel v\u00e4ike diplom \u2014 ta on l\u00e4bitud 12 n\u00e4dalat eesti keelt!"}}
+];
+
+var IK="eesti_pildid_v1",AK="eesti_audio_v1";
+var images={},audios={};
+try{var _i=localStorage.getItem(IK);if(_i)images=JSON.parse(_i);}catch(e){}
+try{var _a=localStorage.getItem(AK);if(_a)audios=JSON.parse(_a);}catch(e){}
+
+var sw=0,mode="browse",edit=false,flipped={},qi=0,showAns=false;
+
+function ik(w,c){return "w"+w+"_c"+c;}
+function saveI(){try{localStorage.setItem(IK,JSON.stringify(images));}catch(e){}}
+function saveA(){try{localStorage.setItem(AK,JSON.stringify(audios));}catch(e){}}
+
+function showStatus(msg,dur){
+  var el=document.getElementById("status");
+  el.textContent=msg;el.style.display="block";
+  clearTimeout(el._t);el._t=setTimeout(function(){el.style.display="none";},dur||3000);
+}
+
+function playAudio(key){
+  var s=audios[key];if(!s)return;
+  try{new Audio(s).play();}catch(e){}
+}
+
+function render(){
+  var tabs="";
+  for(var i=0;i<WEEKS.length;i++){
+    tabs+='<button class="tab'+(i===sw?' active':'')+'" data-w="'+i+'">N'+WEEKS[i].week+' '+WEEKS[i].emoji+'</button>';
+  }
+  document.getElementById("tabs").innerHTML=tabs;
+  document.getElementById("week-title").textContent="N\u00e4dal "+WEEKS[sw].week+": "+WEEKS[sw].title;
+  document.getElementById("modes").innerHTML=
+    '<button class="mode-btn'+(mode==="browse"&&!edit?" active":"")+'" data-mode="browse">\uD83D\uDCDA Sirvi</button>'+
+    '<button class="mode-btn'+(mode==="quiz"&&!edit?" active":"")+'" data-mode="quiz">\uD83C\uDFAE M\u00e4ngi</button>'+
+    '<button class="mode-btn'+(mode==="game"&&!edit?" active":"")+'" data-mode="game">\uD83C\uDFB2 Tegevus</button>'+
+    '<button class="mode-btn'+(edit?" edit-active":"")+'" data-edit="1">'+(edit?"\u2705 Valmis":"\u270F\uFE0F Muuda")+'</button>';
+  if(mode==="game") renderGame(); else if(mode==="quiz") renderQuiz(); else renderBrowse();
+}
+
+function renderGame(){
+  var g=WEEKS[sw].game;
+  document.getElementById("main").innerHTML=
+    '<div class="game-card">'+
+    '<button class="game-close" data-mode="browse">\u2715</button>'+
+    '<div style="font-size:40px;margin-bottom:8px">\uD83C\uDFB2</div>'+
+    '<h3>'+g.title+'</h3>'+
+    '<p>'+g.desc+'</p>'+
+    '</div>';
+}
+
+function renderBrowse(){
+  var week=WEEKS[sw],html='<div class="grid">';
+  for(var ci=0;ci<week.words.length;ci++){
+    var key=ik(sw,ci),rev=!!flipped[ci],img=images[key],hasAud=!!audios[key],word=week.words[ci];
+    html+='<div class="card"><div class="card-img" data-flip="'+ci+'">';
+    if(img)html+='<img src="'+img+'" alt="">';
+    else html+='<div class="placeholder">\uD83D\uDDBC\uFE0F'+(edit?'<br><small>lisa pilt</small>':'')+'</div>';
+    if(!edit&&!rev)html+='<div class="overlay">puuduta!</div>';
+    html+='</div>';
+    if(rev||edit){
+      html+='<div class="card-label">'+word;
+      if(!edit&&hasAud)html+=' <span data-play="'+key+'" style="cursor:pointer;font-size:18px">\uD83D\uDD0A</span>';
+      html+='</div>';
+    }
+    if(edit){
+      html+='<div class="edit-controls"><div class="edit-row">';
+      html+='<button class="ebtn" style="background:#0057CC" data-imgpick="'+key+'">\uD83D\uDDBC\uFE0F '+(img?'Vaheta':'Lisa pilt')+'</button>';
+      if(img)html+='<button class="ebtn" style="background:#e07a5f" data-rmimg="'+key+'">\uD83D\uDDD1\uFE0F</button>';
+      html+='</div><div class="edit-row">';
+      html+='<button class="ebtn" style="background:#003DA5" data-audpick="'+key+'">\uD83C\uDFB5 '+(hasAud?'Vaheta h\u00e4\u00e4l':'Lisa h\u00e4\u00e4l')+'</button>';
+      if(hasAud)html+='<button class="ebtn" style="background:#4a90d9" data-play="'+key+'">\u25B6\uFE0F</button>';
+      if(hasAud)html+='<button class="ebtn" style="background:#e07a5f" data-rmaud="'+key+'">\uD83D\uDDD1\uFE0F</button>';
+      html+='</div></div>';
+    }
+    html+='</div>';
+  }
+  document.getElementById("main").innerHTML=html+'</div>';
+}
+
+function renderQuiz(){
+  var week=WEEKS[sw],word=week.words[qi],key=ik(sw,qi),img=images[key],hasAud=!!audios[key];
+  var html='<div class="quiz-wrap"><div class="quiz-counter">'+(qi+1)+' / '+week.words.length+'</div>';
+  html+='<div class="quiz-card"><div class="quiz-img">';
+  if(img)html+='<img src="'+img+'" alt="">';
+  else html+='<div style="font-size:56px;color:#aac">\uD83D\uDDBC\uFE0F</div>';
+  html+='</div><div class="quiz-answer">';
+  if(showAns){
+    html+='<div class="quiz-word">'+word;
+    if(hasAud)html+=' <span data-play="'+key+'" style="cursor:pointer;font-size:22px">\uD83D\uDD0A</span>';
+    html+='</div>';
+  }else{
+    html+='<div class="quiz-hint">Mis s\u00f5na see on? \uD83E\uDD14</div>';
+  }
+  html+='</div></div>';
+  if(!showAns)html+='<button class="big-btn" style="background:#0057CC" data-action="reveal">N\u00e4ita vastust \uD83D\uDC41\uFE0F</button>';
+  else html+='<button class="big-btn" style="background:#003DA5" data-action="next">'+(qi+1<week.words.length?'J\u00e4rgmine \u27A1\uFE0F':'Valmis! \uD83C\uDF89')+'</button>';
+  document.getElementById("main").innerHTML=html+'</div>';
+}
+
+function triggerFile(accept,cb){
+  var inp=document.createElement("input");
+  inp.type="file";inp.accept=accept;inp.style.cssText="position:fixed;top:-999px";
+  inp.onchange=function(){if(inp.files&&inp.files[0])cb(inp.files[0]);document.body.removeChild(inp);};
+  document.body.appendChild(inp);inp.click();
+}
+
+document.addEventListener("click",function(e){
+  var t=e.target;
+  for(var i=0;i<10;i++){
+    if(!t||t===document.body)break;
+    if(t.dataset){
+      if(t.dataset.w!==undefined){sw=parseInt(t.dataset.w);flipped={};edit=false;mode="browse";render();return;}
+      if(t.dataset.mode!==undefined){mode=t.dataset.mode;if(mode==="quiz"){qi=0;showAns=false;}if(mode==="game"){document.getElementById("main").style.display="";renderGame();document.getElementById("main").style.display="";}else render();return;}
+      if(t.dataset.edit!==undefined){edit=!edit;render();return;}
+      if(t.dataset.flip!==undefined&&!edit){
+        var ci=parseInt(t.dataset.flip);
+        flipped[ci]=!flipped[ci];
+        if(flipped[ci]){(function(k){setTimeout(function(){playAudio(k);},100);})(ik(sw,ci));}
+        renderBrowse();return;
+      }
+      if(t.dataset.play!==undefined){playAudio(t.dataset.play);return;}
+      if(t.dataset.imgpick!==undefined){
+        (function(key){triggerFile("image/*,.gif",function(f){
+          var r=new FileReader();
+          r.onload=function(ev){images[key]=ev.target.result;saveI();renderBrowse();showStatus("\u2705 Pilt salvestatud!");};
+          r.readAsDataURL(f);
+        });})(t.dataset.imgpick);return;
+      }
+      if(t.dataset.audpick!==undefined){
+        (function(key){triggerFile("audio/*",function(f){
+          var r=new FileReader();
+          r.onload=function(ev){
+            var b64=ev.target.result.split(",")[1];
+            audios[key]="data:audio/mpeg;base64,"+b64;
+            saveA();renderBrowse();showStatus("\u2705 H\u00e4\u00e4l salvestatud!");
+          };
+          r.readAsDataURL(f);
+        });})(t.dataset.audpick);return;
+      }
+      if(t.dataset.rmimg!==undefined){delete images[t.dataset.rmimg];saveI();renderBrowse();return;}
+      if(t.dataset.rmaud!==undefined){delete audios[t.dataset.rmaud];saveA();renderBrowse();return;}
+      if(t.dataset.action!==undefined){
+        if(t.dataset.action==="reveal"){showAns=true;playAudio(ik(sw,qi));renderQuiz();}
+        else if(t.dataset.action==="next"){
+          if(qi+1<WEEKS[sw].words.length){qi++;showAns=false;renderQuiz();}
+          else{mode="browse";render();}
+        }
+        return;
+      }
+    }
+    if(t.id==="export-btn"){exportFile();return;}
+    t=t.parentElement;
+  }
+});
+
+function exportFile(){
+  showStatus("\u23F3 Koostan faili...",10000);
+  try{
+    var data=JSON.stringify({images:images,audios:audios});
+    var esc=data.replace(/\\/g,"\\\\").replace(/`/g,"\\`").replace(/<\/script>/gi,"<\\/script>");
+    var src=document.documentElement.outerHTML;
+    var inj='<scr'+'ipt>(function(){var d=JSON.parse(`'+esc+'`);var im=d.images||{};var au=d.audios||{};for(var k in im)images[k]=im[k];for(var k in au)audios[k]=au[k];try{localStorage.setItem("'+IK+'",JSON.stringify(images));}catch(e){}try{localStorage.setItem("'+AK+'",JSON.stringify(audios));}catch(e){}render();})();<\/script>';
+    var final=src.replace('</body>',inj+'</body>');
+    var blob=new Blob([final],{type:'text/html;charset=utf-8'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='eesti-kaardid-export.html';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+    showStatus("\u2705 Fail allalaaditud!",5000);
+  }catch(err){showStatus("\u274C Viga: "+err.message,6000);}
+}
+
+render();
+</script>
+</body>
+</html>
