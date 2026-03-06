@@ -15,24 +15,29 @@ body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #
 .header h1 { color: #fff; font-size: 20px; }
 .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 12px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .tabs::-webkit-scrollbar { display: none; }
-.tab { flex-shrink: 0; padding: 8px 14px; border-radius: 20px; border: none; font-size: 14px; font-weight: 700; background: #ccdcf7; color: #003DA5; min-height: 44px; }
+.tab { flex-shrink: 0; padding: 8px 14px; border-radius: 20px; border: none; font-size: 14px; font-weight: 700; background: #ccdcf7; color: #003DA5; min-height: 44px; cursor: pointer; }
 .tab.active { background: #003DA5; color: #fff; }
 .week-title { text-align: center; margin-bottom: 12px; }
 .week-title span { background: #ccdcf7; border-radius: 12px; padding: 6px 18px; font-weight: 700; color: #003DA5; font-size: 16px; }
 .modes { display: flex; justify-content: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-.mode-btn { padding: 9px 18px; border-radius: 20px; border: none; font-weight: 700; font-size: 14px; background: #ccdcf7; color: #003DA5; min-height: 44px; }
+.mode-btn { padding: 9px 18px; border-radius: 20px; border: none; font-weight: 700; font-size: 14px; background: #ccdcf7; color: #003DA5; min-height: 44px; cursor: pointer; }
 .mode-btn.active { background: #0057CC; color: #fff; }
 .mode-btn.edit-active { background: #e07a5f; color: #fff; }
+.mode-btn.save-btn { background: #2e7d32; color: #fff; }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .card { border-radius: 16px; overflow: hidden; border: 2px solid #ccdcf7; box-shadow: 0 2px 10px rgba(0,61,165,0.1); background: #fff; }
-.card-img { width: 100%; aspect-ratio: 1/1; background: #e8f0fc; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.card-img { width: 100%; aspect-ratio: 1/1; background: #e8f0fc; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; cursor: pointer; }
 .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .placeholder { color: #aac; font-size: 28px; text-align: center; line-height: 1.6; }
 .overlay { position: absolute; inset: 0; background: rgba(0,61,165,0.45); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 14px; }
 .card-label { background: #003DA5; color: #fff; padding: 10px; text-align: center; font-weight: 700; font-size: 14px; display: flex; justify-content: center; align-items: center; gap: 8px; min-height: 44px; }
+.card-label input { background: transparent; border: none; border-bottom: 2px solid rgba(255,255,255,0.5); color: #fff; font-weight: 700; font-size: 14px; text-align: center; width: 100%; outline: none; padding: 2px 0; }
 .edit-controls { background: #e8f0fc; padding: 8px; display: flex; flex-direction: column; gap: 6px; }
 .edit-row { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
-.ebtn { padding: 8px 12px; border-radius: 12px; border: none; color: #fff; font-size: 13px; font-weight: 700; min-height: 40px; }
+.ebtn { padding: 8px 12px; border-radius: 12px; border: none; color: #fff; font-size: 13px; font-weight: 700; min-height: 40px; cursor: pointer; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+.add-card-wrap { grid-column: 1 / -1; display: flex; justify-content: center; padding: 8px 0; }
+.add-card-btn { padding: 12px 28px; background: #e8f0fc; border: 2px dashed #003DA5; border-radius: 16px; color: #003DA5; font-size: 15px; font-weight: 700; cursor: pointer; }
 .status { background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 10px; margin-bottom: 10px; font-size: 13px; display: none; }
 .quiz-wrap { text-align: center; padding-bottom: 20px; }
 .quiz-counter { color: #0057CC; font-size: 14px; font-weight: 700; margin-bottom: 8px; }
@@ -42,14 +47,21 @@ body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #
 .quiz-answer { padding: 16px; min-height: 64px; display: flex; align-items: center; justify-content: center; }
 .quiz-word { font-size: 22px; font-weight: 800; color: #003DA5; }
 .quiz-hint { font-size: 15px; color: #99a; }
-.big-btn { padding: 14px 32px; border: none; border-radius: 20px; font-size: 16px; font-weight: 700; color: #fff; min-height: 52px; }
+.big-btn { padding: 14px 32px; border: none; border-radius: 20px; font-size: 16px; font-weight: 700; color: #fff; min-height: 52px; cursor: pointer; }
 .game-card { background: #fff; border: 2px solid #ccdcf7; border-radius: 16px; padding: 20px; margin-top: 12px; box-shadow: 0 2px 10px rgba(0,61,165,0.08); }
 .game-card h3 { color: #003DA5; font-size: 17px; margin-bottom: 10px; }
 .game-card p { color: #333; font-size: 15px; line-height: 1.6; }
 .game-close { float: right; background: none; border: none; font-size: 20px; cursor: pointer; color: #888; margin-top: -4px; }
-.export-bar { margin-top: 20px; padding-top: 16px; border-top: 2px solid #ccdcf7; text-align: center; }
-.export-btn { padding: 12px 24px; background: #003DA5; color: #fff; border: none; border-radius: 20px; font-size: 15px; font-weight: 700; min-height: 48px; }
-.export-hint { font-size: 12px; color: #88a; margin-top: 8px; }
+
+/* Alphabet cards */
+.alpha-section { margin-bottom: 20px; }
+.alpha-section h2 { color: #003DA5; font-size: 16px; font-weight: 700; margin-bottom: 10px; padding: 6px 12px; background: #ccdcf7; border-radius: 10px; display: inline-block; }
+.alpha-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.alpha-card { background: #fff; border: 2px solid #ccdcf7; border-radius: 12px; padding: 10px 6px; text-align: center; box-shadow: 0 1px 6px rgba(0,61,165,0.08); cursor: pointer; transition: transform 0.1s; }
+.alpha-card:active { transform: scale(0.95); }
+.alpha-letter { font-size: 28px; font-weight: 900; color: #003DA5; line-height: 1; }
+.alpha-name { font-size: 11px; color: #667; margin-top: 3px; font-weight: 600; }
+.alpha-example { font-size: 12px; color: #003DA5; margin-top: 4px; font-weight: 700; background: #e8f0fc; border-radius: 6px; padding: 2px 4px; }
 </style>
 </head>
 <body>
@@ -60,10 +72,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #
   <div class="week-title"><span id="week-title"></span></div>
   <div class="modes" id="modes"></div>
   <div id="main"></div>
-  <div class="export-bar">
-    <button class="export-btn" id="export-btn">💾 Ekspordi fail</button>
-    <div class="export-hint">Salvestab kõik pildid ja helid faili sisse</div>
-  </div>
 </div>
 <script>
 var WEEKS=[
@@ -93,130 +101,229 @@ var WEEKS=[
    game:{title:"Lemmikumängude kordamine",desc:"Tähistamise nädal! Lase lapsel valida oma lemmikümäng kõigist 12 nädalast. Mängige seda koos ja kasutage tunnustussõnu: 'tubli!', 'hästi tehtud!', 'juhhuu!' Tee lapsel väike diplom — ta on läbinud 12 nädalat eesti keelt!"}}
 ];
 
-var IK="eesti_pildid_v1",AK="eesti_audio_v1";
-var images={},audios={};
+var ALPHABET = [
+  {letter:"A a",name:"aa",example:"auto"},
+  {letter:"B b",name:"bee",example:"buss"},
+  {letter:"D d",name:"dee",example:"daam"},
+  {letter:"E e",name:"ee",example:"ema"},
+  {letter:"F f",name:"eff",example:"foto"},
+  {letter:"G g",name:"gee",example:"grill"},
+  {letter:"H h",name:"haa",example:"hunt"},
+  {letter:"I i",name:"ii",example:"isa"},
+  {letter:"J j",name:"jott",example:"jänes"},
+  {letter:"K k",name:"kaa",example:"kass"},
+  {letter:"L l",name:"ell",example:"lind"},
+  {letter:"M m",name:"emm",example:"maja"},
+  {letter:"N n",name:"enn",example:"nina"},
+  {letter:"O o",name:"oo",example:"ost"},
+  {letter:"P p",name:"pee",example:"pall"},
+  {letter:"R r",name:"err",example:"roos"},
+  {letter:"S s",name:"ess",example:"suu"},
+  {letter:"Š š",name:"šaa",example:"šokolaad"},
+  {letter:"Z z",name:"zett",example:"zoo"},
+  {letter:"Ž ž",name:"žee",example:"žanr"},
+  {letter:"T t",name:"tee",example:"tuba"},
+  {letter:"U u",name:"uu",example:"uks"},
+  {letter:"V v",name:"vee",example:"vesi"},
+  {letter:"Õ õ",name:"õõ",example:"õun"},
+  {letter:"Ä ä",name:"ää",example:"äike"},
+  {letter:"Ö ö",name:"öö",example:"öö"},
+  {letter:"Ü ü",name:"üü",example:"üks"}
+];
+
+var IK="eesti_pildid_v2",WK="eesti_words_v2",AK="eesti_audio_v2";
+var images={};
+var customWords={};
+var audios={};
+
 try{var _i=localStorage.getItem(IK);if(_i)images=JSON.parse(_i);}catch(e){}
+try{var _w=localStorage.getItem(WK);if(_w)customWords=JSON.parse(_w);}catch(e){}
 try{var _a=localStorage.getItem(AK);if(_a)audios=JSON.parse(_a);}catch(e){}
 
+// Merge custom words into WEEKS
+function getWords(wi){
+  return customWords["w"+wi] ? customWords["w"+wi] : WEEKS[wi].words.slice();
+}
+function setWords(wi,arr){
+  customWords["w"+wi]=arr;
+  try{localStorage.setItem(WK,JSON.stringify(customWords));}catch(e){}
+}
+
 var sw=0,mode="browse",edit=false,flipped={},qi=0,showAns=false;
+var recording=null,mediaRec=null,recChunks=[],recTimer=null,recSecs=0;
+var VIEW_ALPHA = "alpha"; // special tab value
 
 function ik(w,c){return "w"+w+"_c"+c;}
-function saveI(){try{localStorage.setItem(IK,JSON.stringify(images));}catch(e){}}
+function saveI(){try{localStorage.setItem(IK,JSON.stringify(images));}catch(e){}
+}
 function saveA(){try{localStorage.setItem(AK,JSON.stringify(audios));}catch(e){}}
-
+function playAudio(key){var s=audios[key];if(!s)return;try{new Audio(s).play();}catch(e){}}
 function showStatus(msg,dur){
   var el=document.getElementById("status");
   el.textContent=msg;el.style.display="block";
   clearTimeout(el._t);el._t=setTimeout(function(){el.style.display="none";},dur||3000);
 }
 
-function playAudio(key){
-  var s=audios[key];if(!s)return;
-  try{new Audio(s).play();}catch(e){}
-}
-
 function render(){
+  // Tabs
   var tabs="";
   for(var i=0;i<WEEKS.length;i++){
-    tabs+='<button class="tab'+(i===sw?' active':'')+'" data-w="'+i+'">N'+WEEKS[i].week+' '+WEEKS[i].emoji+'</button>';
+    tabs+='<button class="tab'+(sw===i?' active':'')+'" data-w="'+i+'">N'+WEEKS[i].week+' '+WEEKS[i].emoji+'</button>';
   }
+  tabs+='<button class="tab'+(sw===VIEW_ALPHA?' active':'')+'" data-w="alpha">🔤 ABC</button>';
   document.getElementById("tabs").innerHTML=tabs;
-  document.getElementById("week-title").textContent="N\u00e4dal "+WEEKS[sw].week+": "+WEEKS[sw].title;
+
+  if(sw===VIEW_ALPHA){
+    document.getElementById("week-title").textContent="Eesti tähestik";
+    document.getElementById("modes").innerHTML='';
+    renderAlpha();
+    return;
+  }
+
+  document.getElementById("week-title").textContent="Nädal "+WEEKS[sw].week+": "+WEEKS[sw].title;
+
+  var editLabel = edit ? "✅ Valmis" : "✏️ Muuda";
   document.getElementById("modes").innerHTML=
-    '<button class="mode-btn'+(mode==="browse"&&!edit?" active":"")+'" data-mode="browse">\uD83D\uDCDA Sirvi</button>'+
-    '<button class="mode-btn'+(mode==="quiz"&&!edit?" active":"")+'" data-mode="quiz">\uD83C\uDFAE M\u00e4ngi</button>'+
-    '<button class="mode-btn'+(mode==="game"&&!edit?" active":"")+'" data-mode="game">\uD83C\uDFB2 Tegevus</button>'+
-    '<button class="mode-btn'+(edit?" edit-active":"")+'" data-edit="1">'+(edit?"\u2705 Valmis":"\u270F\uFE0F Muuda")+'</button>';
-  if(mode==="game") renderGame(); else if(mode==="quiz") renderQuiz(); else renderBrowse();
+    '<button class="mode-btn'+(mode==="browse"&&!edit?" active":"")+'" data-mode="browse">📚 Sirvi</button>'+
+    '<button class="mode-btn'+(mode==="quiz"&&!edit?" active":"")+'" data-mode="quiz">🎮 Mängi</button>'+
+    '<button class="mode-btn'+(mode==="game"&&!edit?" active":"")+'" data-mode="game">🎲 Tegevus</button>'+
+    '<button class="mode-btn'+(edit?" edit-active":"")+'" data-edit="1">'+editLabel+'</button>'+
+    '<button class="mode-btn save-btn" id="save-now-btn">💾 Salvesta</button>';
+
+  document.getElementById("save-now-btn").addEventListener("click", function(e){
+    e.stopPropagation();
+    exportFile();
+  });
+
+  if(mode==="game") renderGame();
+  else if(mode==="quiz") renderQuiz();
+  else renderBrowse();
+}
+
+function renderAlpha(){
+  var vowels = ["A a","E e","I i","O o","U u","Õ õ","Ä ä","Ö ö","Ü ü"];
+  var html = '';
+
+  html += '<div class="alpha-section"><h2>🔵 Täishäälikud</h2><div class="alpha-grid">';
+  for(var i=0;i<ALPHABET.length;i++){
+    var a=ALPHABET[i];
+    if(vowels.indexOf(a.letter)!==-1){
+      html+='<div class="alpha-card" style="border-color:#003DA5">'+
+        '<div class="alpha-letter" style="color:#003DA5">'+a.letter+'</div>'+
+        '<div class="alpha-name">'+a.name+'</div>'+
+        '<div class="alpha-example">'+a.example+'</div>'+
+        '</div>';
+    }
+  }
+  html+='</div></div>';
+
+  html += '<div class="alpha-section"><h2>🟠 Kaashäälikud</h2><div class="alpha-grid">';
+  for(var i=0;i<ALPHABET.length;i++){
+    var a=ALPHABET[i];
+    if(vowels.indexOf(a.letter)===-1){
+      html+='<div class="alpha-card" style="border-color:#e07a5f">'+
+        '<div class="alpha-letter" style="color:#e07a5f">'+a.letter+'</div>'+
+        '<div class="alpha-name">'+a.name+'</div>'+
+        '<div class="alpha-example">'+a.example+'</div>'+
+        '</div>';
+    }
+  }
+  html+='</div></div>';
+
+  document.getElementById("main").innerHTML=html;
 }
 
 function renderGame(){
   var g=WEEKS[sw].game;
   document.getElementById("main").innerHTML=
     '<div class="game-card">'+
-    '<button class="game-close" data-mode="browse">\u2715</button>'+
-    '<div style="font-size:40px;margin-bottom:8px">\uD83C\uDFB2</div>'+
+    '<button class="game-close" data-mode="browse">✕</button>'+
+    '<div style="font-size:40px;margin-bottom:8px">🎲</div>'+
     '<h3>'+g.title+'</h3>'+
     '<p>'+g.desc+'</p>'+
     '</div>';
 }
 
 function renderBrowse(){
-  var week=WEEKS[sw],html='<div class="grid">';
-  for(var ci=0;ci<week.words.length;ci++){
-    var key=ik(sw,ci),rev=!!flipped[ci],img=images[key],hasAud=!!audios[key],word=week.words[ci];
+  var words=getWords(sw);
+  var html='<div class="grid">';
+  for(var ci=0;ci<words.length;ci++){
+    var key=ik(sw,ci),rev=!!flipped[ci],img=images[key],word=words[ci];
     html+='<div class="card"><div class="card-img" data-flip="'+ci+'">';
     if(img)html+='<img src="'+img+'" alt="">';
-    else html+='<div class="placeholder">\uD83D\uDDBC\uFE0F'+(edit?'<br><small>lisa pilt</small>':'')+'</div>';
+    else html+='<div class="placeholder">🖼️'+(edit?'<br><small>lisa pilt</small>':'')+'</div>';
     if(!edit&&!rev)html+='<div class="overlay">puuduta!</div>';
     html+='</div>';
     if(rev||edit){
-      html+='<div class="card-label">'+word;
-      if(!edit&&hasAud)html+=' <span data-play="'+key+'" style="cursor:pointer;font-size:18px">\uD83D\uDD0A</span>';
+      html+='<div class="card-label">';
+      if(edit){
+        html+='<input type="text" class="word-input" data-wi="'+sw+'" data-ci="'+ci+'" value="'+escHtml(word)+'" />';
+      } else {
+        html+=word;
+        var hasAud=!!audios[key];
+        if(hasAud)html+=' <span data-play="'+key+'" style="cursor:pointer;font-size:18px">🔊</span>';
+      }
       html+='</div>';
     }
     if(edit){
       html+='<div class="edit-controls"><div class="edit-row">';
       html+='<button class="ebtn" style="background:#0057CC" data-imgpick="'+key+'">\uD83D\uDDBC\uFE0F '+(img?'Vaheta':'Lisa pilt')+'</button>';
-      if(img)html+='<button class="ebtn" style="background:#e07a5f" data-rmimg="'+key+'">\uD83D\uDDD1\uFE0F</button>';
+      if(img)html+='<button class="ebtn" style="background:#e07a5f" data-rmimg="'+key+'">🗑️</button>';
       html+='</div><div class="edit-row">';
-      html+='<button class="ebtn" style="background:#003DA5" data-audpick="'+key+'">\uD83C\uDFB5 '+(hasAud?'Vaheta h\u00e4\u00e4l':'Lisa h\u00e4\u00e4l')+'</button>';
-      if(hasAud)html+='<button class="ebtn" style="background:#4a90d9" data-play="'+key+'">\u25B6\uFE0F</button>';
-      if(hasAud)html+='<button class="ebtn" style="background:#e07a5f" data-rmaud="'+key+'">\uD83D\uDDD1\uFE0F</button>';
+      var hasAud=!!audios[key];
+      html+='<button class="ebtn" style="background:#5b4fcf" data-audpick="'+key+'">\uD83D\uDCE5 '+(hasAud?'Vaheta heli':'Lisa helifail')+'</button>';
+      html+='</div><div class="edit-row">';
+      if(recording===key){
+        html+='<button class="ebtn" style="background:#c0392b;animation:pulse 1s infinite" data-recstop="'+key+'">⏹️ Lõpeta ('+recSecs+'s)</button>';
+      } else {
+        html+='<button class="ebtn" style="background:#e74c3c" data-recstart="'+key+'">🎙️ Salvesta hääl</button>';
+      }
+      if(hasAud)html+='<button class="ebtn" style="background:#27ae60" data-play="'+key+'">▶️</button>';
+      if(hasAud)html+='<button class="ebtn" style="background:#95a5a6" data-rmaud="'+key+'">🗑️</button>';
+      html+='</div><div class="edit-row">';
+      html+='<button class="ebtn" style="background:#c0392b" data-rmcard="'+ci+'">🗑️ Kustuta kaart</button>';
       html+='</div></div>';
     }
     html+='</div>';
   }
+  if(edit){
+    html+='<div class="add-card-wrap"><button class="add-card-btn" data-addcard="'+sw+'">➕ Lisa uus kaart</button></div>';
+  }
   document.getElementById("main").innerHTML=html+'</div>';
+
+  // Attach word input listeners
+  if(edit){
+    var inputs=document.querySelectorAll(".word-input");
+    for(var i=0;i<inputs.length;i++){
+      inputs[i].addEventListener("change",function(e){
+        var wi=parseInt(e.target.dataset.wi);
+        var ci=parseInt(e.target.dataset.ci);
+        var words=getWords(wi);
+        words[ci]=e.target.value;
+        setWords(wi,words);
+      });
+    }
+  }
 }
+
+function escHtml(s){return s.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");}
 
 function renderQuiz(){
-  var week=WEEKS[sw],word=week.words[qi],key=ik(sw,qi),img=images[key],hasAud=!!audios[key];
-  var html='<div class="quiz-wrap"><div class="quiz-counter">'+(qi+1)+' / '+week.words.length+'</div>';
+  var words=getWords(sw),word=words[qi],key=ik(sw,qi),img=images[key];
+  var html='<div class="quiz-wrap"><div class="quiz-counter">'+(qi+1)+' / '+words.length+'</div>';
   html+='<div class="quiz-card"><div class="quiz-img">';
   if(img)html+='<img src="'+img+'" alt="">';
-  else html+='<div style="font-size:56px;color:#aac">\uD83D\uDDBC\uFE0F</div>';
+  else html+='<div style="font-size:56px;color:#aac">🖼️</div>';
   html+='</div><div class="quiz-answer">';
   if(showAns){
-    html+='<div class="quiz-word">'+word;
-    if(hasAud)html+=' <span data-play="'+key+'" style="cursor:pointer;font-size:22px">\uD83D\uDD0A</span>';
-    html+='</div>';
+    html+='<div class="quiz-word">'+word+'</div>';
   }else{
-    html+='<div class="quiz-hint">Mis s\u00f5na see on? \uD83E\uDD14</div>';
+    html+='<div class="quiz-hint">Mis sõna see on? 🤔</div>';
   }
   html+='</div></div>';
-  if(!showAns)html+='<button class="big-btn" style="background:#0057CC" data-action="reveal">N\u00e4ita vastust \uD83D\uDC41\uFE0F</button>';
-  else html+='<button class="big-btn" style="background:#003DA5" data-action="next">'+(qi+1<week.words.length?'J\u00e4rgmine \u27A1\uFE0F':'Valmis! \uD83C\uDF89')+'</button>';
+  if(!showAns)html+='<button class="big-btn" style="background:#0057CC" data-action="reveal">Näita vastust 👁️</button>';
+  else html+='<button class="big-btn" style="background:#003DA5" data-action="next">'+(qi+1<words.length?'Järgmine ➡️':'Valmis! 🎉')+'</button>';
   document.getElementById("main").innerHTML=html+'</div>';
-}
-
-var recording=null,mediaRec=null,recChunks=[],recTimer=null,recSecs=0;
-
-function startRec(key){
-  if(!navigator.mediaDevices){showStatus("❌ Mikrofon pole saadaval");return;}
-  navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
-    recChunks=[];recSecs=0;recording=key;
-    mediaRec=new MediaRecorder(stream);
-    mediaRec.ondataavailable=function(e){if(e.data.size>0)recChunks.push(e.data);};
-    mediaRec.onstop=function(){
-      stream.getTracks().forEach(function(t){t.stop();});
-      var blob=new Blob(recChunks,{type:"audio/webm"});
-      var r=new FileReader();
-      r.onload=function(ev){
-        audios[key]=ev.target.result;
-        saveA();recording=null;clearInterval(recTimer);renderBrowse();showStatus("✅ Hääl salvestatud!");
-      };
-      r.readAsDataURL(blob);
-    };
-    mediaRec.start();
-    recTimer=setInterval(function(){recSecs++;renderBrowse();},1000);
-    renderBrowse();
-  }).catch(function(e){showStatus("❌ Mikrofon: "+e.message);});
-}
-
-function stopRec(key){
-  clearInterval(recTimer);
-  if(mediaRec&&mediaRec.state!=="inactive")mediaRec.stop();
 }
 
 function triggerFile(accept,cb){
@@ -228,71 +335,132 @@ function triggerFile(accept,cb){
 
 document.addEventListener("click",function(e){
   var t=e.target;
+  // Skip save button (handled separately after render)
+  if(t.id==="save-now-btn")return;
   for(var i=0;i<10;i++){
     if(!t||t===document.body)break;
     if(t.dataset){
-      if(t.dataset.w!==undefined){sw=parseInt(t.dataset.w);flipped={};edit=false;mode="browse";render();return;}
-      if(t.dataset.mode!==undefined){mode=t.dataset.mode;if(mode==="quiz"){qi=0;showAns=false;}if(mode==="game"){document.getElementById("main").style.display="";renderGame();document.getElementById("main").style.display="";}else render();return;}
+      if(t.dataset.w!==undefined){
+        sw = t.dataset.w==="alpha" ? VIEW_ALPHA : parseInt(t.dataset.w);
+        flipped={};edit=false;mode="browse";render();return;
+      }
+      if(t.dataset.mode!==undefined){mode=t.dataset.mode;if(mode==="quiz"){qi=0;showAns=false;}render();return;}
       if(t.dataset.edit!==undefined){edit=!edit;render();return;}
       if(t.dataset.flip!==undefined&&!edit){
         var ci=parseInt(t.dataset.flip);
         flipped[ci]=!flipped[ci];
-        if(flipped[ci]){(function(k){setTimeout(function(){playAudio(k);},100);})(ik(sw,ci));}
         renderBrowse();return;
       }
-      if(t.dataset.play!==undefined){playAudio(t.dataset.play);return;}
       if(t.dataset.imgpick!==undefined){
         (function(key){triggerFile("image/*,.gif",function(f){
           var r=new FileReader();
-          r.onload=function(ev){images[key]=ev.target.result;saveI();renderBrowse();showStatus("\u2705 Pilt salvestatud!");};
+          r.onload=function(ev){images[key]=ev.target.result;saveI();renderBrowse();showStatus("✅ Pilt salvestatud!");};
           r.readAsDataURL(f);
         });})(t.dataset.imgpick);return;
       }
+      if(t.dataset.rmimg!==undefined){delete images[t.dataset.rmimg];saveI();renderBrowse();return;}
+      if(t.dataset.play!==undefined){playAudio(t.dataset.play);return;}
       if(t.dataset.audpick!==undefined){
         (function(key){triggerFile("audio/*",function(f){
           var r=new FileReader();
-          r.onload=function(ev){
-            var b64=ev.target.result.split(",")[1];
-            audios[key]="data:audio/mpeg;base64,"+b64;
-            saveA();renderBrowse();showStatus("✅ Hääl salvestatud!");
-          };
+          r.onload=function(ev){audios[key]=ev.target.result;saveA();renderBrowse();showStatus("✅ Heli salvestatud!");};
           r.readAsDataURL(f);
         });})(t.dataset.audpick);return;
       }
       if(t.dataset.recstart!==undefined){startRec(t.dataset.recstart);return;}
-      if(t.dataset.recstop!==undefined){stopRec(t.dataset.recstop);return;}
-      if(t.dataset.rmimg!==undefined){delete images[t.dataset.rmimg];saveI();renderBrowse();return;}
+      if(t.dataset.recstop!==undefined){stopRec();return;}
       if(t.dataset.rmaud!==undefined){delete audios[t.dataset.rmaud];saveA();renderBrowse();return;}
+      if(t.dataset.rmcard!==undefined){
+        var ci=parseInt(t.dataset.rmcard);
+        var words=getWords(sw);
+        if(words.length<=1){showStatus("❌ Vähemalt 1 kaart peab jääma!");return;}
+        // Remove image for this card and shift images
+        delete images[ik(sw,ci)];
+        for(var j=ci;j<words.length-1;j++){
+          var nk=ik(sw,j+1);
+          if(images[nk])images[ik(sw,j)]=images[nk];
+          else delete images[ik(sw,j)];
+        }
+        delete images[ik(sw,words.length-1)];
+        words.splice(ci,1);
+        setWords(sw,words);
+        saveI();
+        renderBrowse();showStatus("🗑️ Kaart kustutatud");return;
+      }
+      if(t.dataset.addcard!==undefined){
+        var wi=parseInt(t.dataset.addcard);
+        var words=getWords(wi);
+        words.push("uus sõna");
+        setWords(wi,words);
+        renderBrowse();
+        showStatus("➕ Uus kaart lisatud!");
+        // Focus the new input
+        setTimeout(function(){
+          var inputs=document.querySelectorAll(".word-input");
+          if(inputs.length)inputs[inputs.length-1].focus();
+        },100);
+        return;
+      }
       if(t.dataset.action!==undefined){
-        if(t.dataset.action==="reveal"){showAns=true;playAudio(ik(sw,qi));renderQuiz();}
+        if(t.dataset.action==="reveal"){showAns=true;renderQuiz();}
         else if(t.dataset.action==="next"){
-          if(qi+1<WEEKS[sw].words.length){qi++;showAns=false;renderQuiz();}
+          var words=getWords(sw);
+          if(qi+1<words.length){qi++;showAns=false;renderQuiz();}
           else{mode="browse";render();}
         }
         return;
       }
     }
-    if(t.id==="export-btn"){exportFile();return;}
     t=t.parentElement;
   }
 });
 
+function startRec(key){
+  if(!navigator.mediaDevices){showStatus("❌ Mikrofon pole saadaval");return;}
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+    recChunks=[];recSecs=0;recording=key;
+    mediaRec=new MediaRecorder(stream);
+    mediaRec.ondataavailable=function(e){if(e.data.size>0)recChunks.push(e.data);};
+    mediaRec.onstop=function(){
+      stream.getTracks().forEach(function(t){t.stop();});
+      var blob=new Blob(recChunks,{type:"audio/webm"});
+      var r=new FileReader();
+      r.onload=function(ev){audios[key]=ev.target.result;saveA();recording=null;clearInterval(recTimer);renderBrowse();showStatus("✅ Hääl salvestatud!");};
+      r.readAsDataURL(blob);
+    };
+    mediaRec.start();
+    recTimer=setInterval(function(){recSecs++;renderBrowse();},1000);
+    renderBrowse();
+  }).catch(function(e){showStatus("❌ Mikrofon: "+e.message);});
+}
+function stopRec(){clearInterval(recTimer);if(mediaRec&&mediaRec.state!=="inactive")mediaRec.stop();}
+
 function exportFile(){
-  showStatus("\u23F3 Koostan faili...",10000);
+  showStatus("⏳ Koostan faili...",10000);
   try{
-    var data=JSON.stringify({images:images,audios:audios});
+    var exportData={images:images,customWords:customWords,audios:audios};
+    var data=JSON.stringify(exportData);
     var esc=data.replace(/\\/g,"\\\\").replace(/`/g,"\\`").replace(/<\/script>/gi,"<\\/script>");
     var src=document.documentElement.outerHTML;
-    var inj='<scr'+'ipt>(function(){var d=JSON.parse(`'+esc+'`);var im=d.images||{};var au=d.audios||{};for(var k in im)images[k]=im[k];for(var k in au)audios[k]=au[k];try{localStorage.setItem("'+IK+'",JSON.stringify(images));}catch(e){}try{localStorage.setItem("'+AK+'",JSON.stringify(audios));}catch(e){}render();})();<\/script>';
+    var inj='<scr'+'ipt>(function(){'+
+      'var d=JSON.parse(`'+esc+'`);'+
+      'images=d.images||{};'+
+      'customWords=d.customWords||{};'+
+      'audios=d.audios||{};'+
+      'try{localStorage.setItem("'+IK+'",JSON.stringify(images));}catch(e){}'+
+      'try{localStorage.setItem("'+WK+'",JSON.stringify(customWords));}catch(e){}'+
+      'try{localStorage.setItem("'+AK+'",JSON.stringify(audios));}catch(e){}'+
+      'render();'+
+      '})();<\/script>';
     var final=src.replace('</body>',inj+'</body>');
     var blob=new Blob([final],{type:'text/html;charset=utf-8'});
     var a=document.createElement('a');
     a.href=URL.createObjectURL(blob);
-    a.download='eesti-kaardid-export.html';
+    a.download='eesti-kaardid.html';
     document.body.appendChild(a);a.click();document.body.removeChild(a);
     URL.revokeObjectURL(a.href);
-    showStatus("\u2705 Fail allalaaditud!",5000);
-  }catch(err){showStatus("\u274C Viga: "+err.message,6000);}
+    showStatus("✅ Fail allalaaditud!",5000);
+  }catch(err){showStatus("❌ Viga: "+err.message,6000);}
 }
 
 render();
