@@ -190,6 +190,35 @@ function renderQuiz(){
   document.getElementById("main").innerHTML=html+'</div>';
 }
 
+var recording=null,mediaRec=null,recChunks=[],recTimer=null,recSecs=0;
+
+function startRec(key){
+  if(!navigator.mediaDevices){showStatus("❌ Mikrofon pole saadaval");return;}
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+    recChunks=[];recSecs=0;recording=key;
+    mediaRec=new MediaRecorder(stream);
+    mediaRec.ondataavailable=function(e){if(e.data.size>0)recChunks.push(e.data);};
+    mediaRec.onstop=function(){
+      stream.getTracks().forEach(function(t){t.stop();});
+      var blob=new Blob(recChunks,{type:"audio/webm"});
+      var r=new FileReader();
+      r.onload=function(ev){
+        audios[key]=ev.target.result;
+        saveA();recording=null;clearInterval(recTimer);renderBrowse();showStatus("✅ Hääl salvestatud!");
+      };
+      r.readAsDataURL(blob);
+    };
+    mediaRec.start();
+    recTimer=setInterval(function(){recSecs++;renderBrowse();},1000);
+    renderBrowse();
+  }).catch(function(e){showStatus("❌ Mikrofon: "+e.message);});
+}
+
+function stopRec(key){
+  clearInterval(recTimer);
+  if(mediaRec&&mediaRec.state!=="inactive")mediaRec.stop();
+}
+
 function triggerFile(accept,cb){
   var inp=document.createElement("input");
   inp.type="file";inp.accept=accept;inp.style.cssText="position:fixed;top:-999px";
@@ -225,11 +254,13 @@ document.addEventListener("click",function(e){
           r.onload=function(ev){
             var b64=ev.target.result.split(",")[1];
             audios[key]="data:audio/mpeg;base64,"+b64;
-            saveA();renderBrowse();showStatus("\u2705 H\u00e4\u00e4l salvestatud!");
+            saveA();renderBrowse();showStatus("✅ Hääl salvestatud!");
           };
           r.readAsDataURL(f);
         });})(t.dataset.audpick);return;
       }
+      if(t.dataset.recstart!==undefined){startRec(t.dataset.recstart);return;}
+      if(t.dataset.recstop!==undefined){stopRec(t.dataset.recstop);return;}
       if(t.dataset.rmimg!==undefined){delete images[t.dataset.rmimg];saveI();renderBrowse();return;}
       if(t.dataset.rmaud!==undefined){delete audios[t.dataset.rmaud];saveA();renderBrowse();return;}
       if(t.dataset.action!==undefined){
