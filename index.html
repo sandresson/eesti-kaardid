@@ -349,6 +349,7 @@ document.addEventListener("click",function(e){
       if(t.dataset.flip!==undefined&&!edit){
         var ci=parseInt(t.dataset.flip);
         flipped[ci]=!flipped[ci];
+        if(flipped[ci]){(function(k){setTimeout(function(){playAudio(k);},100);})(ik(sw,ci));}
         renderBrowse();return;
       }
       if(t.dataset.imgpick!==undefined){
