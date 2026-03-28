@@ -403,7 +403,7 @@ document.addEventListener("click",function(e){
         return;
       }
       if(t.dataset.action!==undefined){
-        if(t.dataset.action==="reveal"){showAns=true;renderQuiz();}
+        if(t.dataset.action==="reveal"){showAns=true;renderQuiz();setTimeout(function(){playAudio(ik(sw,qi));},100);}
         else if(t.dataset.action==="next"){
           var words=getWords(sw);
           if(qi+1<words.length){qi++;showAns=false;renderQuiz();}
